@@ -1,0 +1,81 @@
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        int n     = s.length();
+        int score = 0;
+
+        string maxStr = (x > y) ? "ab" : "ba";
+        string minStr = (maxStr == "ab") ? "ba" : "ab";
+
+        string temp_first     = removeSubstring(s, maxStr);
+        int removedPairsCount = (n - temp_first.length()) / 2;
+        score                += removedPairsCount * max(x, y);
+
+        string temp_second = removeSubstring(temp_first, minStr);
+        removedPairsCount  = (temp_first.length() - temp_second.length()) / 2;
+        score             += removedPairsCount * min(x, y);
+
+        return score;
+    }
+
+private:
+    string removeSubstring(string& s, string& matchStr) {
+        stack<char> st;
+
+        for (char &ch : s) {
+            if (ch == matchStr[1] && !st.empty() && st.top() == matchStr[0]) {
+                st.pop();
+            } else {
+                st.push(ch);
+            }
+        }
+
+        string remainStr;
+        while (!st.empty()) {
+            remainStr.push_back(st.top());
+            st.pop();
+        }
+        reverse(remainStr.begin(), remainStr.end());
+        return remainStr;
+    }
+};
+
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        int n     = s.length();
+        int score = 0;
+
+        string maxStr = (x > y) ? "ab" : "ba";
+        string minStr = (maxStr == "ab") ? "ba" : "ab";
+
+        string temp_first     = removeSubstring(s, maxStr);
+        int L                 = temp_first.length();
+        int removedPairsCount = (n - L) / 2;
+        score                += removedPairsCount * max(x, y);
+
+        string temp_second = removeSubstring(temp_first, minStr);
+        removedPairsCount  = (L - temp_second.length()) / 2;
+        score             += removedPairsCount * min(x, y);
+
+        return score;
+    }
+
+    string removeSubstring(string& inputString, string& matchStr) {
+        int j = 0;
+
+        for (int i = 0; i < inputString.size(); i++) {
+            inputString[j++] = inputString[i];
+
+            if (j > 1 &&
+                inputString[j - 2] == matchStr[0] &&
+                inputString[j - 1] == matchStr[1]) {
+                j -= 2;
+            }
+        }
+
+        inputString.erase(inputString.begin() + j, inputString.end());
+
+        return inputString;
+    }
+};

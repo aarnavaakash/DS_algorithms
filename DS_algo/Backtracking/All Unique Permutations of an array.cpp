@@ -1,0 +1,86 @@
+class Solution {
+  public:
+    unordered_set<string> st;
+    vector<vector<int>> result;
+    int N;
+
+    void solve(vector<int> &arr, vector<int>& temp, vector<bool>& used) {
+        if(temp.size() == N) {
+            string s = "";
+            for(int &x : temp) {
+                s += to_string(x);
+            }
+            if(st.find(s) == st.end()) {
+                result.push_back(temp);
+                st.insert(s);
+            }
+            return;
+        }
+
+        for(int i = 0; i < N; i++) {
+            if(used[i] == false) {
+                temp.push_back(arr[i]);
+                used[i] = true;
+
+                solve(arr, temp, used);
+
+                used[i] = false;
+                temp.pop_back();
+            }
+        }
+    }
+
+    vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
+        N = n;
+
+        vector<bool> used(n, false);
+        vector<int> temp;
+        sort(begin(arr), end(arr));
+        solve(arr, temp, used);
+
+        return result;
+    }
+};
+
+class Solution {
+  public:
+    vector<vector<int>> result;
+    int N;
+
+    void solve(vector<int> &arr, vector<bool>& used, vector<int>& temp, string tempString) {
+        if(temp.size() == N) {
+            result.push_back(temp);
+            return;
+        }
+
+        for(int i = 0; i < N; i++) {
+
+            if(used[i] == true || (i > 0 && arr[i] == arr[i-1] && used[i-1] == true)) {
+                continue;
+            }
+
+            used[i] = true;
+            temp.push_back(arr[i]);
+
+            solve(arr, used, temp,tempString);
+
+            temp.pop_back();
+            used[i] = false;
+
+        }
+    }
+
+    vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
+        sort(begin(arr), end(arr));
+
+        vector<int> temp;
+        string tempString="";
+        vector<bool> used(n, false);
+        N = n;
+
+        solve(arr, used, temp,tempString);
+
+        return result;
+
+    }
+};

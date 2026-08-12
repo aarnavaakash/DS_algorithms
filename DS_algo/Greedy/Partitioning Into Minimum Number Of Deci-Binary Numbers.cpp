@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int minPartitions(string n) {
+        int count = 0;
+
+        while (true) {
+            bool changed = false;
+
+            for (char &ch : n) {
+                if (ch != '0') {
+                    ch--;
+                    changed = true;
+                }
+            }
+
+            if (!changed)
+                break;
+
+            count++;
+        }
+
+        return count;
+    }
+};
+
+class Solution {
+public:
+    int minPartitions(string n) {
+        return *max_element(begin(n), end(n))-'0';
+    }
+};

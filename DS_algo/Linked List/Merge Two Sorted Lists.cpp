@@ -1,0 +1,45 @@
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        ListNode* result;
+        if(l1->val < l2->val) {
+            result = l1;
+            result->next = mergeTwoLists(result->next, l2);
+        } else {
+            result = l2;
+            result->next = mergeTwoLists(l1, result->next);
+        }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
+        if(head1 == NULL) return head2;
+        if(head2 == NULL) return head1;
+
+        ListNode* head = new ListNode(-1);
+        ListNode* temp = head;
+
+        while(head1 && head2){
+            if(head1->val > head2->val){
+                temp->next = head2;
+                head2 = head2->next;
+            } else {
+                temp->next = head1;
+                head1 = head1->next;
+            }
+            temp = temp->next;
+        }
+        if(head1 == NULL)
+            temp->next = head2;
+        else
+            temp->next = head1;
+        return head->next;
+    }
+};

@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int result = 0;
+
+        for(int i = 0; i<m; i++) {
+            for(int j = 0; j<n; j++) {
+
+                if(grid[i][j] < 0)
+                    result++;
+
+            }
+        }
+
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int result = 0;
+
+        for(auto &vec : grid) {
+
+            int idx = upper_bound(begin(vec), end(vec), 0, greater<int>()) - begin(vec);
+
+            result += n-idx;
+
+        }
+
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int row = m-1;
+        int col = 0;
+
+        int result = 0;
+        while( row >= 0 && col < n) {
+
+            if(grid[row][col] < 0) {
+                result += n-col;
+                row--;
+            } else {
+                col++;
+            }
+        }
+
+        return result;
+    }
+};

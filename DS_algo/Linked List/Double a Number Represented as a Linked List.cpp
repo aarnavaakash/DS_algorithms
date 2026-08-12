@@ -1,0 +1,137 @@
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head == NULL || head->next == NULL) {
+            return head;
+        }
+
+        ListNode* last = reverseList(head->next);
+        head->next->next = head;
+        head->next = NULL;
+
+        return last;
+
+    }
+
+    ListNode* doubleIt(ListNode* head) {
+        head = reverseList(head);
+
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+        int carry = 0;
+
+        while(curr != NULL) {
+
+            int newValue = curr->val * 2 + carry;
+            curr->val = newValue%10;
+
+            if(newValue >= 10) {
+                carry = 1;
+            } else {
+                carry = 0;
+            }
+
+            prev = curr;
+            curr = curr->next;
+
+        }
+
+        if(carry != 0) {
+            ListNode* newHead = new ListNode(carry);
+            prev->next = newHead;
+        }
+
+        return reverseList(head);
+    }
+};
+
+class Solution {
+public:
+
+    int doubleUtil(ListNode* head) {
+        if(head == NULL)
+            return 0;
+
+        int carry  = doubleUtil(head->next);
+        int newVal = (head->val)*2 + carry;
+        head->val = newVal%10;
+
+        return newVal/10;
+
+    }
+
+    ListNode* doubleIt(ListNode* head) {
+
+        int lastCarry = doubleUtil(head);
+
+        if(lastCarry > 0) {
+            ListNode* newHead = new ListNode(lastCarry);
+            newHead->next = head;
+            return newHead;
+        }
+
+        return head;
+
+    }
+};
+
+class Solution {
+public:
+    ListNode* doubleIt(ListNode* head) {
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+
+        while(curr != NULL) {
+
+            int newVal = curr->val * 2;
+
+            if(newVal < 10) {
+                curr->val = newVal;
+            } else if(prev != NULL) {
+                curr->val = newVal%10;
+
+                prev->val += 1;
+            } else {
+                ListNode* newHead = new ListNode(1);
+                newHead->next = curr;
+                curr->val = newVal%10;
+                head = newHead;
+            }
+
+            prev = curr;
+            curr = curr->next;
+
+        }
+
+        return head;
+    }
+};
+
+class Solution {
+public:
+    ListNode* doubleIt(ListNode* head) {
+
+        if(head->val >= 5) {
+            ListNode* newHead = new ListNode(0);
+            newHead->next = head;
+            head = newHead;
+
+        }
+
+        ListNode* curr = head;
+
+        while(curr != NULL) {
+
+            curr->val = (curr->val * 2)%10;
+
+            if(curr->next != NULL && curr->next->val >= 5) {
+                curr->val += 1;
+            }
+
+            curr = curr->next;
+
+        }
+
+        return head;
+    }
+};

@@ -1,0 +1,89 @@
+class Solution {
+public:
+    bool hasEvenDigits(int num) {
+        int digitCount = 0;
+        while (num) {
+            digitCount++;
+            num /= 10;
+        }
+        return (digitCount % 2) == 0;
+    }
+
+    int findNumbers(vector<int>& nums) {
+        int result = 0;
+
+        for (int num : nums) {
+            if (hasEvenDigits(num))
+                result++;
+        }
+
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int result = 0;
+
+        for (int num : nums) {
+            string str = to_string(num);
+            if (str.length() % 2 == 0)
+                result++;
+        }
+
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int result = 0;
+
+        for (int &num : nums) {
+            int digitCount = floor(log10(num)) + 1;
+
+            if (digitCount % 2 == 0)
+                result++;
+        }
+
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int result = 0;
+
+        for (int &num : nums) {
+            int digitCount = ceil(log10(num+1));
+
+            if (digitCount % 2 == 0)
+                result++;
+        }
+
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int n = nums.size();
+
+        int result = 0;
+
+        for(int i = 0; i < n; i++) {
+            if((nums[i] >= 10 && nums[i] <= 99) ||
+               (nums[i] >= 1000 && nums[i] <= 9999) ||
+               (nums[i] == 100000)) {
+                result++;
+               }
+        }
+
+        return result;
+
+    }
+};

@@ -1,0 +1,51 @@
+class Solution {
+public:
+    string reverseParentheses(string s) {
+        stack<int> openeBracket;
+        string result;
+        for (char currentChar : s) {
+            if (currentChar == '(') {
+                openeBracket.push(result.length());
+            } else if (currentChar == ')') {
+                int start = openeBracket.top();
+                openeBracket.pop();
+                reverse(result.begin() + start, result.end());
+            } else {
+                result += currentChar;
+            }
+        }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    string reverseParentheses(string s) {
+        int n = s.length();
+        stack<int> openBracket;
+        vector<int> door(n);
+
+        for (int i = 0; i < n; ++i) {
+            if (s[i] == '(') {
+                openBracket.push(i);
+            } else if (s[i] == ')') {
+                int j = openBracket.top();
+                openBracket.pop();
+                door[i] = j;
+                door[j] = i;
+            }
+        }
+
+        string result;
+        int direction = 1;
+        for (int i = 0; i < n; i += direction) {
+            if (s[i] == '(' || s[i] == ')') {
+                i = door[i];
+                direction = -direction;
+            } else {
+                result += s[i];
+            }
+        }
+        return result;
+    }
+};

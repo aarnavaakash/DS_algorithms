@@ -1,0 +1,58 @@
+typedef long long ll;
+vector<ll> printFirstNegativeInteger(ll A[], ll N, ll k) {
+    list<ll> dll;
+    vector<ll> result;
+    int i = 0, j = 0;
+
+    while(j < N) {
+        if(A[j] < 0)
+            dll.push_back(A[j]);
+
+        if(j-i+1 == k) {
+            ll neg = dll.empty() ? 0 : dll.front();
+            result.push_back(neg);
+            if(A[i] < 0 && !dll.empty()) {
+                dll.pop_front();
+            }
+            i++;
+        }
+        j++;
+    }
+    return result;
+
+ }
+
+typedef long long ll;
+vector<ll> printFirstNegativeInteger(ll A[], ll N, ll K) {
+
+        deque<ll> deq;
+        vector<ll> result;
+
+        for(ll i = 0; i<K; i++) {
+            if(A[i] < 0)
+                deq.push_back(i);
+        }
+
+        for(int i = K; i<N; i++) {
+            if(!deq.empty()) {
+                result.push_back(A[deq.front()]);
+            } else {
+                result.push_back(0);
+            }
+
+            while(!deq.empty() && deq.front() < i-K+1) {
+                deq.pop_front();
+            }
+
+            if(A[i] < 0)
+                deq.push_back(i);
+        }
+
+        if(!deq.empty())
+            result.push_back(A[deq.front()]);
+        else
+            result.push_back(0);
+
+        return result;
+
+ }
